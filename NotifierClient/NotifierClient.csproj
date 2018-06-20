@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{ACCF4597-3748-4117-8633-1CB767F8CCC3}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>GreeterClient</RootNamespace>
-    <AssemblyName>GreeterClient</AssemblyName>
+    <RootNamespace>NotifierClient</RootNamespace>
+    <AssemblyName>NotifierClient</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -52,7 +52,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Greeter\Greeter.csproj">
+    <ProjectReference Include="..\Notifier\Notifier.csproj">
       <Project>{724DFC8C-4B57-4C3F-811C-0463BE2A2829}</Project>
       <Name>Greeter</Name>
     </ProjectReference>

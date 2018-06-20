@@ -48,13 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helloworld.cs" />
-    <Compile Include="HelloworldGrpc.cs" />
+    <Compile Include="PubSub.cs" />
+    <Compile Include="PubSubGrpc.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="..\..\..\protos\helloworld.proto">
-      <Link>protos\helloworld.proto</Link>
+    <None Include="protos\pubSub.proto">
+      <Link>protos\pubSub.proto</Link>
     </None>
     <None Include="..\generate_protos.bat">
       <Link>generate_protos.bat</Link>
