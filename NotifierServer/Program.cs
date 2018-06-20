@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using PubSub;
 
-namespace GreeterServer
+namespace NotifierServer
 {
-    class GreeterImpl : Notifier.NotifierBase
+    class NotifierImpl : Notifier.NotifierBase
     {
         // Server side handler of the SayHello RPC
         public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
@@ -22,7 +22,7 @@ namespace GreeterServer
         {
             Server server = new Server
             {
-                Services = { Notifier.BindService(new GreeterImpl()) },
+                Services = { Notifier.BindService(new NotifierImpl()) },
                 Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
             };
             server.Start();

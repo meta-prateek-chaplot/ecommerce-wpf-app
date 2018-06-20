@@ -11,7 +11,7 @@ namespace NotifierClient
             Channel channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
 
             var client = new Notifier.NotifierClient(channel);
-            String user = "you";
+            String user = "Prateek";
 
             var reply = client.SayHello(new HelloRequest { Name = user });
             Console.WriteLine("Greeting: " + reply.Message);
