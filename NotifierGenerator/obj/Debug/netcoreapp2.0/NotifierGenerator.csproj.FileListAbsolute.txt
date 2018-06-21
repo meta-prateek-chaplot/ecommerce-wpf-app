@@ -1,0 +1,11 @@
+d:\ecommerce-wpf-app\NotifierGenerator\bin\Debug\netcoreapp2.0\NotifierGenerator.deps.json
+d:\ecommerce-wpf-app\NotifierGenerator\bin\Debug\netcoreapp2.0\NotifierGenerator.runtimeconfig.json
+d:\ecommerce-wpf-app\NotifierGenerator\bin\Debug\netcoreapp2.0\NotifierGenerator.runtimeconfig.dev.json
+d:\ecommerce-wpf-app\NotifierGenerator\bin\Debug\netcoreapp2.0\NotifierGenerator.dll
+d:\ecommerce-wpf-app\NotifierGenerator\bin\Debug\netcoreapp2.0\NotifierGenerator.pdb
+d:\ecommerce-wpf-app\NotifierGenerator\obj\Debug\netcoreapp2.0\NotifierGenerator.csprojAssemblyReference.cache
+d:\ecommerce-wpf-app\NotifierGenerator\obj\Debug\netcoreapp2.0\NotifierGenerator.csproj.CoreCompileInputs.cache
+d:\ecommerce-wpf-app\NotifierGenerator\obj\Debug\netcoreapp2.0\NotifierGenerator.AssemblyInfoInputs.cache
+d:\ecommerce-wpf-app\NotifierGenerator\obj\Debug\netcoreapp2.0\NotifierGenerator.AssemblyInfo.cs
+d:\ecommerce-wpf-app\NotifierGenerator\obj\Debug\netcoreapp2.0\NotifierGenerator.dll
+d:\ecommerce-wpf-app\NotifierGenerator\obj\Debug\netcoreapp2.0\NotifierGenerator.pdb
