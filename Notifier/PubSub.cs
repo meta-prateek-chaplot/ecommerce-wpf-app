@@ -22,13 +22,18 @@ namespace PubSub {
     static PubSubReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgxwdWJTdWIucHJvdG8SBnB1YlN1YiIcCgxIZWxsb1JlcXVlc3QSDAoEbmFt",
-            "ZRgBIAEoCSIdCgpIZWxsb1JlcGx5Eg8KB21lc3NhZ2UYASABKAkyQgoITm90",
-            "aWZpZXISNgoIU2F5SGVsbG8SFC5wdWJTdWIuSGVsbG9SZXF1ZXN0GhIucHVi",
-            "U3ViLkhlbGxvUmVwbHkiAGIGcHJvdG8z"));
+            "CgxwdWJTdWIucHJvdG8SBnB1YlN1YiINCgtEYXRhUmVxdWVzdCI2CglEYXRh",
+            "UmVwbHkSEwoLcHJvZHVjdE5hbWUYASABKAkSFAoMcHJvZHVjdFByaWNlGAIg",
+            "ASgBIhwKDEhlbGxvUmVxdWVzdBIMCgRuYW1lGAEgASgJIh0KCkhlbGxvUmVw",
+            "bHkSDwoHbWVzc2FnZRgBIAEoCTJ2CghOb3RpZmllchI2CghTYXlIZWxsbxIU",
+            "LnB1YlN1Yi5IZWxsb1JlcXVlc3QaEi5wdWJTdWIuSGVsbG9SZXBseSIAEjIK",
+            "BERhdGESEy5wdWJTdWIuRGF0YVJlcXVlc3QaES5wdWJTdWIuRGF0YVJlcGx5",
+            "IgAwAWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::PubSub.DataRequest), global::PubSub.DataRequest.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::PubSub.DataReply), global::PubSub.DataReply.Parser, new[]{ "ProductName", "ProductPrice" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::PubSub.HelloRequest), global::PubSub.HelloRequest.Parser, new[]{ "Name" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::PubSub.HelloReply), global::PubSub.HelloReply.Parser, new[]{ "Message" }, null, null, null)
           }));
@@ -37,8 +42,241 @@ namespace PubSub {
 
   }
   #region Messages
+  public sealed partial class DataRequest : pb::IMessage<DataRequest> {
+    private static readonly pb::MessageParser<DataRequest> _parser = new pb::MessageParser<DataRequest>(() => new DataRequest());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DataRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::PubSub.PubSubReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataRequest(DataRequest other) : this() {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataRequest Clone() {
+      return new DataRequest(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DataRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DataRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DataRequest other) {
+      if (other == null) {
+        return;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DataReply : pb::IMessage<DataReply> {
+    private static readonly pb::MessageParser<DataReply> _parser = new pb::MessageParser<DataReply>(() => new DataReply());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DataReply> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::PubSub.PubSubReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataReply() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataReply(DataReply other) : this() {
+      productName_ = other.productName_;
+      productPrice_ = other.productPrice_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataReply Clone() {
+      return new DataReply(this);
+    }
+
+    /// <summary>Field number for the "productName" field.</summary>
+    public const int ProductNameFieldNumber = 1;
+    private string productName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ProductName {
+      get { return productName_; }
+      set {
+        productName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "productPrice" field.</summary>
+    public const int ProductPriceFieldNumber = 2;
+    private double productPrice_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double ProductPrice {
+      get { return productPrice_; }
+      set {
+        productPrice_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DataReply);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DataReply other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ProductName != other.ProductName) return false;
+      if (ProductPrice != other.ProductPrice) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ProductName.Length != 0) hash ^= ProductName.GetHashCode();
+      if (ProductPrice != 0D) hash ^= ProductPrice.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ProductName.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(ProductName);
+      }
+      if (ProductPrice != 0D) {
+        output.WriteRawTag(17);
+        output.WriteDouble(ProductPrice);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ProductName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ProductName);
+      }
+      if (ProductPrice != 0D) {
+        size += 1 + 8;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DataReply other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ProductName.Length != 0) {
+        ProductName = other.ProductName;
+      }
+      if (other.ProductPrice != 0D) {
+        ProductPrice = other.ProductPrice;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            ProductName = input.ReadString();
+            break;
+          }
+          case 17: {
+            ProductPrice = input.ReadDouble();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   /// <summary>
-  /// The request message containing the user's name.
   /// </summary>
   public sealed partial class HelloRequest : pb::IMessage<HelloRequest> {
     private static readonly pb::MessageParser<HelloRequest> _parser = new pb::MessageParser<HelloRequest>(() => new HelloRequest());
@@ -47,7 +285,7 @@ namespace PubSub {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::PubSub.PubSubReflection.Descriptor.MessageTypes[0]; }
+      get { return global::PubSub.PubSubReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -157,9 +395,6 @@ namespace PubSub {
 
   }
 
-  /// <summary>
-  /// The response message containing the greetings
-  /// </summary>
   public sealed partial class HelloReply : pb::IMessage<HelloReply> {
     private static readonly pb::MessageParser<HelloReply> _parser = new pb::MessageParser<HelloReply>(() => new HelloReply());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -167,7 +402,7 @@ namespace PubSub {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::PubSub.PubSubReflection.Descriptor.MessageTypes[1]; }
+      get { return global::PubSub.PubSubReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

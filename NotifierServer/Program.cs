@@ -2,9 +2,11 @@ using System;
 using System.Threading.Tasks;
 using Grpc.Core;
 using PubSub;
+using System.Threading;
 
 namespace NotifierServer
 {
+    // to comment
     class NotifierImpl : Notifier.NotifierBase
     {
         // Server side handler of the SayHello RPC
@@ -12,14 +14,29 @@ namespace NotifierServer
         {
             return Task.FromResult(new HelloReply { Message = "Hello " + request.Name });
         }
+
+        public override async Task Data(DataRequest request, IServerStreamWriter<DataReply> replyStream, ServerCallContext context)
+        {
+
+        }
     }
 
     class Program
     {
         const int Port = 50051;
+        
+        private static void GetData()
+        {
+            Subject subject = new Subject();
+
+            subject.Subscribe(new Observer("Notifier Server"));
+        }
 
         public static void Main(string[] args)
         {
+            Thread startSub = new Thread(new ThreadStart(GetData));
+            startSub.Start();
+            
             Server server = new Server
             {
                 Services = { Notifier.BindService(new NotifierImpl()) },

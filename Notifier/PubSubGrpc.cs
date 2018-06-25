@@ -10,7 +10,7 @@ using grpc = global::Grpc.Core;
 
 namespace PubSub {
   /// <summary>
-  /// The greeting service definition.
+  /// Greeter
   /// </summary>
   public static partial class Notifier
   {
@@ -18,6 +18,8 @@ namespace PubSub {
 
     static readonly grpc::Marshaller<global::PubSub.HelloRequest> __Marshaller_HelloRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::PubSub.HelloRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::PubSub.HelloReply> __Marshaller_HelloReply = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::PubSub.HelloReply.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::PubSub.DataRequest> __Marshaller_DataRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::PubSub.DataRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::PubSub.DataReply> __Marshaller_DataReply = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::PubSub.DataReply.Parser.ParseFrom);
 
     static readonly grpc::Method<global::PubSub.HelloRequest, global::PubSub.HelloReply> __Method_SayHello = new grpc::Method<global::PubSub.HelloRequest, global::PubSub.HelloReply>(
         grpc::MethodType.Unary,
@@ -25,6 +27,13 @@ namespace PubSub {
         "SayHello",
         __Marshaller_HelloRequest,
         __Marshaller_HelloReply);
+
+    static readonly grpc::Method<global::PubSub.DataRequest, global::PubSub.DataReply> __Method_Data = new grpc::Method<global::PubSub.DataRequest, global::PubSub.DataReply>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "Data",
+        __Marshaller_DataRequest,
+        __Marshaller_DataReply);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -35,13 +44,18 @@ namespace PubSub {
     /// <summary>Base class for server-side implementations of Notifier</summary>
     public abstract partial class NotifierBase
     {
+      public virtual global::System.Threading.Tasks.Task<global::PubSub.HelloReply> SayHello(global::PubSub.HelloRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
       /// <summary>
-      /// Sends a greeting
       /// </summary>
       /// <param name="request">The request received from the client.</param>
+      /// <param name="responseStream">Used for sending responses back to the client.</param>
       /// <param name="context">The context of the server-side call handler being invoked.</param>
-      /// <returns>The response to send back to the client (wrapped by a task).</returns>
-      public virtual global::System.Threading.Tasks.Task<global::PubSub.HelloReply> SayHello(global::PubSub.HelloRequest request, grpc::ServerCallContext context)
+      /// <returns>A task indicating completion of the handler.</returns>
+      public virtual global::System.Threading.Tasks.Task Data(global::PubSub.DataRequest request, grpc::IServerStreamWriter<global::PubSub.DataReply> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -71,49 +85,41 @@ namespace PubSub {
       {
       }
 
-      /// <summary>
-      /// Sends a greeting
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-      /// <param name="cancellationToken">An optional token for canceling the call.</param>
-      /// <returns>The response received from the server.</returns>
       public virtual global::PubSub.HelloReply SayHello(global::PubSub.HelloRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
         return SayHello(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      /// <summary>
-      /// Sends a greeting
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="options">The options for the call.</param>
-      /// <returns>The response received from the server.</returns>
       public virtual global::PubSub.HelloReply SayHello(global::PubSub.HelloRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_SayHello, null, options, request);
       }
+      public virtual grpc::AsyncUnaryCall<global::PubSub.HelloReply> SayHelloAsync(global::PubSub.HelloRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      {
+        return SayHelloAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::PubSub.HelloReply> SayHelloAsync(global::PubSub.HelloRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_SayHello, null, options, request);
+      }
       /// <summary>
-      /// Sends a greeting
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
       /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::PubSub.HelloReply> SayHelloAsync(global::PubSub.HelloRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
+      public virtual grpc::AsyncServerStreamingCall<global::PubSub.DataReply> Data(global::PubSub.DataRequest request, grpc::Metadata headers = null, DateTime? deadline = null, CancellationToken cancellationToken = default(CancellationToken))
       {
-        return SayHelloAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return Data(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       /// <summary>
-      /// Sends a greeting
       /// </summary>
       /// <param name="request">The request to send to the server.</param>
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::PubSub.HelloReply> SayHelloAsync(global::PubSub.HelloRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncServerStreamingCall<global::PubSub.DataReply> Data(global::PubSub.DataRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncUnaryCall(__Method_SayHello, null, options, request);
+        return CallInvoker.AsyncServerStreamingCall(__Method_Data, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override NotifierClient NewInstance(ClientBaseConfiguration configuration)
@@ -127,7 +133,8 @@ namespace PubSub {
     public static grpc::ServerServiceDefinition BindService(NotifierBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_SayHello, serviceImpl.SayHello).Build();
+          .AddMethod(__Method_SayHello, serviceImpl.SayHello)
+          .AddMethod(__Method_Data, serviceImpl.Data).Build();
     }
 
   }
