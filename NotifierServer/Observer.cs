@@ -10,7 +10,7 @@ namespace NotifierServer
     {
         public string ObserverName { get; private set; }
 
-        private Dictionary<string, int> products = new Dictionary<string, int>();
+        private Dictionary<string, ProductInfo> products = new Dictionary<string, ProductInfo>();
         private Object productsLock = new Object();
 
         public Observer(string name)
@@ -18,17 +18,17 @@ namespace NotifierServer
             this.ObserverName = name;
         }
 
-        public void Update(Dictionary<string, int> products)
+        public void Update(Dictionary<string, ProductInfo> products)
         {
             lock (productsLock)
             {
-                this.products = products;
+                //TODO
             }
         }
     }
 
     interface IObserver
     {
-        void Update(Dictionary<string, int> products);
+        void Update(Dictionary<string, ProductInfo> products);
     }
 }

@@ -6,7 +6,6 @@ using System.Threading;
 
 namespace NotifierServer
 {
-    // to comment
     class NotifierImpl : Notifier.NotifierBase
     {
         // Server side handler of the SayHello RPC
@@ -17,7 +16,7 @@ namespace NotifierServer
 
         public override async Task Data(DataRequest request, IServerStreamWriter<DataReply> replyStream, ServerCallContext context)
         {
-
+            //TODO
         }
     }
 

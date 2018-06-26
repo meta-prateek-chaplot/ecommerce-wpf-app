@@ -7,22 +7,22 @@ using System.Threading;
 
 namespace NotifierServer
 {
+    public class ProductInfo
+    {
+        public string name;
+        public int lastTimeStamp;
+        public List<double> prices;
+
+        public ProductInfo(string name, double price)
+        {
+            this.name = name;
+            this.prices.Add(price);
+            this.lastTimeStamp = -1;
+        }
+    }
+
     class Subject : ISubject
     {
-        public class ProductInfo
-        {
-            public string name;
-            public int lastTimeStamp;
-            public List<double> prices;
-
-            public ProductInfo(string name, double price)
-            {
-                this.name = name;
-                this.prices.Add(price);
-                this.lastTimeStamp = -1;
-            }
-        }
-
         private List<Observer> observers = new List<Observer>();
         private Object observersLock = new Object();
 
@@ -56,11 +56,11 @@ namespace NotifierServer
 
                 lock (productsLock)
                 {
-                    products["TV"] = random.Next(8999, 12999);
-                    products["Fridge"] = random.Next(17999, 21999);
-                    products["Mobile"] = random.Next(6999, 10999);
-                    products["AC"] = random.Next(22999, 26999);
-                    products["Bike"] = random.Next(32999, 36999);
+                    products["TV"].prices.Add(random.Next(8999, 12999));
+                    products["Fridge"].prices.Add(random.Next(17999, 21999));
+                    products["Mobile"].prices.Add(random.Next(6999, 10999));
+                    products["AC"].prices.Add(random.Next(22999, 26999));
+                    products["Bike"].prices.Add(random.Next(32999, 36999));
                 }
 
                 Notify();
@@ -100,7 +100,7 @@ namespace NotifierServer
             }
         }
 
-        async Task<int> ObserverUpdate(Observer observer, Dictionary<string, int> products)
+        async Task<int> ObserverUpdate(Observer observer, Dictionary<string, ProductInfo> products)
         {
             await Task.Run(() => observer.Update(products));
             return 0;
