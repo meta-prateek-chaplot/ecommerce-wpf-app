@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using PubSub;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace NotifierServer
 {
@@ -17,6 +18,16 @@ namespace NotifierServer
         public override async Task Data(DataRequest request, IServerStreamWriter<DataReply> replyStream, ServerCallContext context)
         {
             //TODO
+            // send name, price, and
+            // update timestamp
+
+            //lock (Observer.productsLock)
+            //{
+            //    foreach (string product in Observer.products.Keys)
+            //    {
+            //        //Console.WriteLine("product: " + product);
+            //    }
+            //}
         }
     }
 
@@ -24,18 +35,11 @@ namespace NotifierServer
     {
         const int Port = 50051;
         
-        private static void GetData()
-        {
-            Subject subject = new Subject();
-
-            subject.Subscribe(new Observer("Notifier Server"));
-        }
-
         public static void Main(string[] args)
         {
-            Thread startSub = new Thread(new ThreadStart(GetData));
-            startSub.Start();
-            
+            // Starting DataClass
+            DataClass obj = new DataClass();
+
             Server server = new Server
             {
                 Services = { Notifier.BindService(new NotifierImpl()) },
@@ -48,6 +52,23 @@ namespace NotifierServer
             Console.ReadKey();
 
             server.ShutdownAsync().Wait();
+        }
+
+        static void printData()
+        {
+            while(true)
+            {
+                Thread.Sleep(5 * 1000);
+
+                lock (DataClass.productLock)
+                {
+                    foreach (KeyValuePair<int, Product> product in DataClass.products)
+                    {
+                        Console.WriteLine(product.Value.name + ": " + string.Join(", ", product.Value.price));
+                    }
+
+                }
+            }
         }
     }
 }
