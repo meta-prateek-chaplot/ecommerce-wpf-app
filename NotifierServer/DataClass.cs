@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace NotifierServer
 {
     public struct Product {
         public string name;
-        public List<int> price;
+        public List<double> price;
         public int lastTimeStamp;
 
-        public Product(string name/*, int price*/)
+        public Product(string name)
         {
             this.name = name;
-            this.price = new List<int>();
-            lastTimeStamp = -1;
+            price = new List<double>();
+            lastTimeStamp = 0;
+        }
+
+        public void setLastTimeStamp(int lastTimeStamp)
+        {
+            this.lastTimeStamp = lastTimeStamp;
         }
     }
 

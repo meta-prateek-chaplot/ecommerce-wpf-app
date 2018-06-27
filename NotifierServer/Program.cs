@@ -2,32 +2,56 @@ using System;
 using System.Threading.Tasks;
 using Grpc.Core;
 using PubSub;
-using System.Threading;
 using System.Collections.Generic;
 
 namespace NotifierServer
 {
     class NotifierImpl : Notifier.NotifierBase
     {
-        // Server side handler of the SayHello RPC
-        public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
-        {
-            return Task.FromResult(new HelloReply { Message = "Hello " + request.Name });
-        }
-
         public override async Task Data(DataRequest request, IServerStreamWriter<DataReply> replyStream, ServerCallContext context)
         {
-            //TODO
-            // send name, price, and
-            // update timestamp
+            List<Product> localProducts = null;
+            List<int> timeStamp = new List<int>();
+            
+            // while(true){}??, first see functioning of routeguide sample wpf application
 
-            //lock (Observer.productsLock)
-            //{
-            //    foreach (string product in Observer.products.Keys)
-            //    {
-            //        //Console.WriteLine("product: " + product);
-            //    }
-            //}
+            lock (DataClass.productLock)
+            {
+                if(localProducts is null)
+                {
+                    localProducts = new List<Product>();
+
+                    foreach (KeyValuePair<int, Product> product in DataClass.products)
+                    {
+                        localProducts.Add(product.Value);
+                    }
+                }
+                else
+                {
+                    foreach(KeyValuePair<int, Product> product in DataClass.products)
+                    {
+                        List<double> prices = product.Value.price;
+                        int count = localProducts[product.Key].lastTimeStamp;
+                        prices.RemoveRange(0, count);
+
+                        localProducts[product.Key].price.AddRange(prices);
+                    }
+                }
+            }
+
+            foreach(Product product in localProducts)
+            {
+                string prodName = product.name;
+                timeStamp.Add(product.price.Count);
+                
+                for(int index = product.lastTimeStamp; index < product.price.Count; index++)
+                {
+                    DataReply response = new DataReply { ProductName = prodName, ProductPrice = product.price[index] };
+                    await replyStream.WriteAsync(response);
+                }
+
+                product.setLastTimeStamp(product.price.Count);
+            }
         }
     }
 
@@ -40,6 +64,7 @@ namespace NotifierServer
             // Starting DataClass
             DataClass obj = new DataClass();
 
+            // Starting gRPC Server
             Server server = new Server
             {
                 Services = { Notifier.BindService(new NotifierImpl()) },
@@ -47,28 +72,11 @@ namespace NotifierServer
             };
             server.Start();
 
-            Console.WriteLine("Greeter server listening on port " + Port);
+            Console.WriteLine("Notifier server listening on port " + Port);
             Console.WriteLine("Press any key to stop the server...");
             Console.ReadKey();
 
             server.ShutdownAsync().Wait();
-        }
-
-        static void printData()
-        {
-            while(true)
-            {
-                Thread.Sleep(5 * 1000);
-
-                lock (DataClass.productLock)
-                {
-                    foreach (KeyValuePair<int, Product> product in DataClass.products)
-                    {
-                        Console.WriteLine(product.Value.name + ": " + string.Join(", ", product.Value.price));
-                    }
-
-                }
-            }
         }
     }
 }

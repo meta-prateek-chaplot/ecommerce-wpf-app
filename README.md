@@ -1,1 +1,1 @@
-# ECommerce App
+# Pricing App
