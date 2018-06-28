@@ -14,6 +14,7 @@ namespace NotifierServer
             List<int> timeStamp = new List<int>();
             
             // while(true){}??, first see functioning of routeguide sample wpf application
+            // System.Threading.Thread.Sleep(4 * 1000);
 
             lock (DataClass.productLock)
             {
@@ -39,12 +40,12 @@ namespace NotifierServer
                 }
             }
 
-            foreach(Product product in localProducts)
+            foreach (Product product in localProducts)
             {
                 string prodName = product.name;
                 timeStamp.Add(product.price.Count);
-                
-                for(int index = product.lastTimeStamp; index < product.price.Count; index++)
+
+                for (int index = product.lastTimeStamp; index < product.price.Count; index++)
                 {
                     DataReply response = new DataReply { ProductName = prodName, ProductPrice = product.price[index] };
                     await replyStream.WriteAsync(response);
@@ -55,11 +56,14 @@ namespace NotifierServer
         }
     }
 
+    //ISSUE: server not closing...
+    // system.threading.thread.currentthread.abort();
     class Program
     {
         const int Port = 50051;
         
-        public static void Main(string[] args)
+        // exception handling
+        static void Main(string[] args)
         {
             // Starting DataClass
             DataClass obj = new DataClass();
