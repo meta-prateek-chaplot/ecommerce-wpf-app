@@ -27,9 +27,9 @@ namespace NotifierServer
         {
             lock (productLock)
             {
-                products.Add(0, new Product("Tv"));
-                products.Add(1, new Product("Ac"));
-                products.Add(2, new Product("Bike"));
+                products.Add(0, new Product("TV"));
+                products.Add(1, new Product("AC"));
+                products.Add(2, new Product("BIKE"));
             }
 
             System.Timers.Timer t = new System.Timers.Timer();

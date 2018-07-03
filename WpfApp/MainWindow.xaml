@@ -11,7 +11,7 @@
         <TabControl>
             <TabItem Header="AC" Padding="10, 5">
                 <cht:Chart Name="lineSeries" Title="Line Graph" Background="LightBlue">
-                    <cht:LineSeries Title="Price" DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding}" IsSelectionEnabled="True"/>
+                    <cht:LineSeries Title="Price" DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding}" IsSelectionEnabled="True" Loaded="Window_Loaded"/>
                 </cht:Chart>
             </TabItem>
             <TabItem Header="BIKE" Padding="10, 5">

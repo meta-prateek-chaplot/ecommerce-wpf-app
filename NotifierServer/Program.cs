@@ -8,7 +8,7 @@ namespace NotifierServer
 {
     class NotifierImpl : Notifier.NotifierBase
     {
-        int secToSendData = 2 * 1000;
+        int secToSendData = 5 * 1000;
 
         Dictionary<int, int> productTimeStamp = null;
 
@@ -52,14 +52,14 @@ namespace NotifierServer
             while (true)
             {
                 System.Threading.Thread.Sleep(secToSendData);
-                
+
                 if (priceListUpdate())
                 {
                     List<DataReply> responseList = new List<DataReply>();
 
-                    lock (productListLock)
+                    lock (DataClass.productLock)
                     {
-                        foreach (KeyValuePair<int, Product> product in productList)
+                        foreach (KeyValuePair<int, Product> product in DataClass.products)
                         {
                             string prodName = product.Value.name;
                             int key = product.Key;
@@ -68,10 +68,12 @@ namespace NotifierServer
                             {
                                 responseList.Add(new DataReply { ProductName = prodName, ProductPrice = product.Value.priceList[index] });
                             }
+
+                            productTimeStamp[key] = product.Value.priceList.Count;
                         }
                     }
 
-                    foreach(DataReply response in responseList)
+                    foreach (DataReply response in responseList)
                     {
                         await replyStream.WriteAsync(response);
                     }
@@ -86,7 +88,7 @@ namespace NotifierServer
     class Program
     {
         const int Port = 50051;
-        
+
         // exception handling
         static void Main(string[] args)
         {
