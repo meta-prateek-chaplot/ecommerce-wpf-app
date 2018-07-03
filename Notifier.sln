@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifierServer", "NotifierS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifierClient", "NotifierClient\NotifierClient.csproj", "{ACCF4597-3748-4117-8633-1CB767F8CCC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfClient", "WpfClient\WpfClient.csproj", "{F40CEF64-83E3-47ED-9649-1F348F910421}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp", "WpfApp\WpfApp.csproj", "{824791F9-CB96-4951-A7E5-77C025F3BEE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{ACCF4597-3748-4117-8633-1CB767F8CCC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACCF4597-3748-4117-8633-1CB767F8CCC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACCF4597-3748-4117-8633-1CB767F8CCC3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F40CEF64-83E3-47ED-9649-1F348F910421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F40CEF64-83E3-47ED-9649-1F348F910421}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F40CEF64-83E3-47ED-9649-1F348F910421}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F40CEF64-83E3-47ED-9649-1F348F910421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{824791F9-CB96-4951-A7E5-77C025F3BEE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{824791F9-CB96-4951-A7E5-77C025F3BEE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{824791F9-CB96-4951-A7E5-77C025F3BEE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{824791F9-CB96-4951-A7E5-77C025F3BEE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

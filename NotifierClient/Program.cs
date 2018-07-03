@@ -25,15 +25,16 @@ namespace NotifierClient
                 using (var call = client.Data(request))
                 {
                     var responseStream = call.ResponseStream;
-                    StringBuilder responseLog = new StringBuilder("Result: ");
-
                     while(await responseStream.MoveNext())
                     {
+                        StringBuilder responseLog = new StringBuilder();
+
                         DataReply dataReply = responseStream.Current;
                         responseLog.Append(dataReply);
+                        
+                        // Original Position: outside current loop
+                        Console.WriteLine(responseLog.ToString());
                     }
-
-                    Console.WriteLine(responseLog.ToString());
                 }
             }
         }

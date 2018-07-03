@@ -8,50 +8,75 @@ namespace NotifierServer
 {
     class NotifierImpl : Notifier.NotifierBase
     {
-        public override async Task Data(DataRequest request, IServerStreamWriter<DataReply> replyStream, ServerCallContext context)
-        {
-            List<Product> localProducts = null;
-            List<int> timeStamp = new List<int>();
-            
-            // while(true){}??, first see functioning of routeguide sample wpf application
-            // System.Threading.Thread.Sleep(4 * 1000);
+        int secToSendData = 2 * 1000;
 
+        Dictionary<int, int> productTimeStamp = null;
+
+        private void SetTimeStamp()
+        {
             lock (DataClass.productLock)
             {
-                if(localProducts is null)
+                if (productTimeStamp is null)
                 {
-                    localProducts = new List<Product>();
-
+                    productTimeStamp = new Dictionary<int, int>();
                     foreach (KeyValuePair<int, Product> product in DataClass.products)
                     {
-                        localProducts.Add(product.Value);
+                        productTimeStamp.Add(product.Key, 0);
                     }
                 }
-                else
-                {
-                    foreach(KeyValuePair<int, Product> product in DataClass.products)
-                    {
-                        List<double> prices = product.Value.price;
-                        int count = localProducts[product.Key].lastTimeStamp;
-                        prices.RemoveRange(0, count);
+            }
+        }
 
-                        localProducts[product.Key].price.AddRange(prices);
+        private bool priceListUpdate()
+        {
+            lock (DataClass.productLock)
+            {
+                foreach (KeyValuePair<int, Product> product in DataClass.products)
+                {
+                    if (productTimeStamp[product.Key] != product.Value.priceList.Count)
+                    {
+                        Console.WriteLine("True returned!");
+                        return true;
                     }
                 }
             }
 
-            foreach (Product product in localProducts)
+            return false;
+        }
+
+        // while(true){}??, first see functioning of routeguide sample wpf application
+        // System.Threading.Thread.Sleep(4 * 1000);
+        public override async Task Data(DataRequest request, IServerStreamWriter<DataReply> replyStream, ServerCallContext context)
+        {
+            SetTimeStamp();
+            while (true)
             {
-                string prodName = product.name;
-                timeStamp.Add(product.price.Count);
-
-                for (int index = product.lastTimeStamp; index < product.price.Count; index++)
+                System.Threading.Thread.Sleep(secToSendData);
+                
+                if (priceListUpdate())
                 {
-                    DataReply response = new DataReply { ProductName = prodName, ProductPrice = product.price[index] };
-                    await replyStream.WriteAsync(response);
-                }
+                    List<DataReply> responseList = new List<DataReply>();
 
-                product.setLastTimeStamp(product.price.Count);
+                    lock (productListLock)
+                    {
+                        foreach (KeyValuePair<int, Product> product in productList)
+                        {
+                            string prodName = product.Value.name;
+                            int key = product.Key;
+
+                            for (int index = productTimeStamp[key]; index < product.Value.priceList.Count; index++)
+                            {
+                                responseList.Add(new DataReply { ProductName = prodName, ProductPrice = product.Value.priceList[index] });
+                            }
+                        }
+                    }
+
+                    foreach(DataReply response in responseList)
+                    {
+                        await replyStream.WriteAsync(response);
+                    }
+                    responseList.Clear();
+                }
             }
         }
     }
@@ -66,7 +91,7 @@ namespace NotifierServer
         static void Main(string[] args)
         {
             // Starting DataClass
-            DataClass obj = new DataClass();
+            new DataClass();
 
             // Starting gRPC Server
             Server server = new Server

@@ -1,0 +1,29 @@
+﻿<Window x:Class="NotifierClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NotifierClient"
+        xmlns:cht="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="AC" Padding="10, 5">
+                <cht:Chart Name="lineSeries" Title="Line Graph" Background="LightBlue">
+                    <cht:LineSeries Title="Price" DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding}" IsSelectionEnabled="True"/>
+                </cht:Chart>
+            </TabItem>
+            <TabItem Header="BIKE" Padding="10, 5">
+                <cht:Chart Name="lineSeries2" Title="Graph" Background="LightBlue">
+                    <cht:LineSeries Title="Price" DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding}" IsSelectionEnabled="True"/>
+                </cht:Chart>
+            </TabItem>
+            <TabItem Header="TV" Padding="10, 5">
+                <cht:Chart Name="lineSeries3" Title="Graph" Background="LightBlue">
+                    <cht:LineSeries Title="Price" DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding}" IsSelectionEnabled="True"/>
+                </cht:Chart>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

@@ -1,29 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Timers;
 
 namespace NotifierServer
 {
     public struct Product {
         public string name;
-        public List<double> price;
-        public int lastTimeStamp;
+        public List<double> priceList;
 
         public Product(string name)
         {
             this.name = name;
-            price = new List<double>();
-            lastTimeStamp = 0;
-        }
-
-        public void setLastTimeStamp(int lastTimeStamp)
-        {
-            this.lastTimeStamp = lastTimeStamp;
+            priceList = new List<double>();
         }
     }
 
     class DataClass
     {
+        int secToGenerateData = 5 * 1000;      // time req for price data to be generated
+
         public static Dictionary<int, Product> products = new Dictionary<int, Product>();
         public static Object productLock = new Object();
 
@@ -31,30 +27,30 @@ namespace NotifierServer
         {
             lock (productLock)
             {
-                products.Add(1, new Product("Tv"));
-                products.Add(2, new Product("Ac"));
-                products.Add(3, new Product("Bike"));
+                products.Add(0, new Product("Tv"));
+                products.Add(1, new Product("Ac"));
+                products.Add(2, new Product("Bike"));
             }
 
-            Thread th = new Thread(new ThreadStart(generateLoop));
-            th.Start();
+            System.Timers.Timer t = new System.Timers.Timer();
+            t.Elapsed += new ElapsedEventHandler(GenerateLoop);
+            t.Interval = secToGenerateData;
+            t.Enabled = true;
         }
 
-        public void generateLoop()
+        public void GenerateLoop(object source, ElapsedEventArgs e)
         {
             Random random = new Random();
 
             while (true)
             {
+                Thread.Sleep(secToGenerateData);
+
                 lock (productLock)
                 {
-                    Thread.Sleep(5 * 1000);
-
-                    products[1].price.Add(random.Next(8999, 10999));
-                    products[2].price.Add(random.Next(22499, 26499));
-                    products[3].price.Add(random.Next(27999, 31999));
-
-                    random.NextDouble();
+                    products[0].priceList.Add(random.Next(8999, 10999));
+                    products[1].priceList.Add(random.Next(22499, 26499));
+                    products[2].priceList.Add(random.Next(27999, 31999));
                 }
             }
         }
