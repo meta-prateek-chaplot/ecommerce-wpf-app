@@ -18,7 +18,7 @@ namespace NotifierServer
 
     class DataClass
     {
-        int secToGenerateData = 5 * 1000;      // time req for price data to be generated
+        int secToGenerateData = 10 * 1000;      // time req for price data to be generated
 
         public static Dictionary<int, Product> products = new Dictionary<int, Product>();
         public static Object productLock = new Object();

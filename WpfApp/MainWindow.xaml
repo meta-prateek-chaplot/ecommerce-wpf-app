@@ -8,22 +8,24 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TabControl>
+        <TabControl Name="tc" SelectionChanged="tc_SelectionChanged">
             <TabItem Header="AC" Padding="10, 5">
-                <cht:Chart Name="lineSeries" Title="Line Graph" Background="LightBlue">
+                <cht:Chart Name="lineSeries" Title="Market Trend" Background="LightBlue">
                     <cht:LineSeries Title="Price" DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding}" IsSelectionEnabled="True" Loaded="Window_Loaded"/>
                 </cht:Chart>
             </TabItem>
             <TabItem Header="BIKE" Padding="10, 5">
-                <cht:Chart Name="lineSeries2" Title="Graph" Background="LightBlue">
+                <cht:Chart Name="lineSeries2" Title="Market Trend" Background="LightBlue">
                     <cht:LineSeries Title="Price" DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding}" IsSelectionEnabled="True"/>
                 </cht:Chart>
             </TabItem>
             <TabItem Header="TV" Padding="10, 5">
-                <cht:Chart Name="lineSeries3" Title="Graph" Background="LightBlue">
+                <cht:Chart Name="lineSeries3" Title="Market Trend" Background="LightBlue">
                     <cht:LineSeries Title="Price" DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding}" IsSelectionEnabled="True"/>
                 </cht:Chart>
             </TabItem>
         </TabControl>
+        <TextBox Name="textBox" HorizontalAlignment="Left" Height="23" Margin="662,5,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="70" TextChanged="textBox_TextChanged" Loaded="Tab_Loaded"/>
+        <Label Content="Current Price:" HorizontalAlignment="Left" Margin="564,5,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic"/>
     </Grid>
 </Window>

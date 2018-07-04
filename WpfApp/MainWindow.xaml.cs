@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace NotifierClient
@@ -13,43 +14,38 @@ namespace NotifierClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static ObservableCollection<KeyValuePair<int, double>> acVaules = new ObservableCollection<KeyValuePair<int, double>>();
-        static int acCount = 0;
+        public ObservableCollection<KeyValuePair<int, double>> acVaules = new ObservableCollection<KeyValuePair<int, double>>();
+        int acCount = 0;
 
-        public class NotifierClient
+        public ObservableCollection<KeyValuePair<int, double>> bVaules = new ObservableCollection<KeyValuePair<int, double>>();
+        int bCount = 0;
+
+        public ObservableCollection<KeyValuePair<int, double>> tVaules = new ObservableCollection<KeyValuePair<int, double>>();
+        int tCount = 0;
+
+        public async Task GetData(Notifier.NotifierClient client)
         {
-            readonly Notifier.NotifierClient client;
+            DataRequest request = new DataRequest { };
 
-            public NotifierClient(Notifier.NotifierClient client)
+            using (var call = client.Data(request))
             {
-                this.client = client;
-            }
+                var responseStream = call.ResponseStream;
 
-            public async Task GetData()
-            {
-                DataRequest request = new DataRequest { };
-
-                using (var call = client.Data(request))
+                while (await responseStream.MoveNext())
                 {
-                    var responseStream = call.ResponseStream;
-
-                    while (await responseStream.MoveNext())
-                    {
-                        DataReply dataReply = responseStream.Current;
-
-                        timerTick(dataReply.ProductName, dataReply.ProductPrice);
-                    }
+                    DataReply dataReply = responseStream.Current;
+                    timerTick(dataReply.ProductName, dataReply.ProductPrice);
                 }
             }
         }
 
         Channel channel;
-        NotifierClient client;
+        Notifier.NotifierClient client;
 
         public MainWindow()
         {
             channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
-            client = new NotifierClient(new Notifier.NotifierClient(channel));
+            client = new Notifier.NotifierClient(channel);
 
             InitializeComponent();
             showChart();
@@ -57,22 +53,73 @@ namespace NotifierClient
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            await client.GetData();
+            await GetData(client);
             channel.ShutdownAsync().Wait();
         }
 
-        public static void timerTick(string name, double price)
+        public void timerTick(string name, double price)
         {
             if (name == "AC")
             {
                 acVaules.Add(new KeyValuePair<int, double>(acCount, price));
                 acCount += 1;
             }
+            if (name == "BIKE")
+            {
+                bVaules.Add(new KeyValuePair<int, double>(bCount, price));
+                bCount += 1;
+            }
+            if (name == "TV")
+            {
+                tVaules.Add(new KeyValuePair<int, double>(tCount, price));
+                tCount += 1;
+            }
+
+            UpdateTextBox();
         }
 
         private void showChart()
         {
             lineSeries.DataContext = acVaules;
+            lineSeries2.DataContext = bVaules;
+            lineSeries3.DataContext = tVaules;
+        }
+
+        private void Tab_Loaded(object sender, RoutedEventArgs e)
+        {
+            textBox.Text = "0";
+        }
+
+        private void tc_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateTextBox();
+        }
+
+        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        public void UpdateTextBox()
+        {
+            TabItem ti = tc.SelectedItem as TabItem;
+
+            if (acVaules.Count == 0)
+            {
+                return;
+            }
+
+            if (ti.Header.ToString() == "AC")
+            {
+                textBox.Text = acVaules[acVaules.Count - 1].Value.ToString();
+            }
+            else if (ti.Header.ToString() == "BIKE")
+            {
+                textBox.Text = bVaules[bVaules.Count - 1].Value.ToString();
+            }
+            else if (ti.Header.ToString() == "TV")
+            {
+                textBox.Text = tVaules[tVaules.Count - 1].Value.ToString();
+            }
         }
     }
 }

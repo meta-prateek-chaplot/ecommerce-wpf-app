@@ -8,7 +8,7 @@ namespace NotifierServer
 {
     class NotifierImpl : Notifier.NotifierBase
     {
-        int secToSendData = 5 * 1000;
+        int secToSendData = 10 * 1000;
 
         Dictionary<int, int> productTimeStamp = null;
 
@@ -35,7 +35,7 @@ namespace NotifierServer
                 {
                     if (productTimeStamp[product.Key] != product.Value.priceList.Count)
                     {
-                        Console.WriteLine("True returned!");
+                        //Console.WriteLine("True returned!");
                         return true;
                     }
                 }
