@@ -1,11 +1,15 @@
-﻿using Grpc.Core;
+﻿// exception handling
+// xaml chart coding
+// current price textbox coding
+// review xaml
+
+using Grpc.Core;
 using PubSub;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace NotifierClient
 {
@@ -15,13 +19,15 @@ namespace NotifierClient
     public partial class MainWindow : Window
     {
         public ObservableCollection<KeyValuePair<int, double>> acVaules = new ObservableCollection<KeyValuePair<int, double>>();
-        int acCount = 0;
-
         public ObservableCollection<KeyValuePair<int, double>> bVaules = new ObservableCollection<KeyValuePair<int, double>>();
-        int bCount = 0;
-
         public ObservableCollection<KeyValuePair<int, double>> tVaules = new ObservableCollection<KeyValuePair<int, double>>();
+
+        int acCount = 0;
+        int bCount = 0;
         int tCount = 0;
+
+        Channel channel;
+        Notifier.NotifierClient client;
 
         public async Task GetData(Notifier.NotifierClient client)
         {
@@ -38,9 +44,6 @@ namespace NotifierClient
                 }
             }
         }
-
-        Channel channel;
-        Notifier.NotifierClient client;
 
         public MainWindow()
         {
@@ -62,17 +65,17 @@ namespace NotifierClient
             if (name == "AC")
             {
                 acVaules.Add(new KeyValuePair<int, double>(acCount, price));
-                acCount += 1;
+                acCount++;
             }
-            if (name == "BIKE")
+            else if (name == "BIKE")
             {
                 bVaules.Add(new KeyValuePair<int, double>(bCount, price));
-                bCount += 1;
+                bCount++;
             }
-            if (name == "TV")
+            else if (name == "TV")
             {
                 tVaules.Add(new KeyValuePair<int, double>(tCount, price));
-                tCount += 1;
+                tCount++;
             }
 
             UpdateTextBox();

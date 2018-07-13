@@ -8,88 +8,58 @@ namespace NotifierServer
 {
     class NotifierImpl : Notifier.NotifierBase
     {
-        int secToSendData = 10 * 1000;
-
         Dictionary<int, int> productTimeStamp = null;
 
-        private void SetTimeStamp()
+        private void InitializeTimeStamp()
         {
-            lock (DataClass.productLock)
+            if (productTimeStamp is null)
             {
-                if (productTimeStamp is null)
+                productTimeStamp = new Dictionary<int, int>();
+                foreach (KeyValuePair<int, Product> product in DataClass.products)
                 {
-                    productTimeStamp = new Dictionary<int, int>();
-                    foreach (KeyValuePair<int, Product> product in DataClass.products)
-                    {
-                        productTimeStamp.Add(product.Key, 0);
-                    }
+                    productTimeStamp.Add(product.Key, 0);
                 }
             }
         }
 
         private bool priceListUpdate()
         {
-            lock (DataClass.productLock)
+            if (productTimeStamp[0] < DataClass.products[0].priceList.Count)
             {
-                foreach (KeyValuePair<int, Product> product in DataClass.products)
-                {
-                    if (productTimeStamp[product.Key] != product.Value.priceList.Count)
-                    {
-                        //Console.WriteLine("True returned!");
-                        return true;
-                    }
-                }
+                return true;
             }
 
             return false;
         }
 
-        // while(true){}??, first see functioning of routeguide sample wpf application
-        // System.Threading.Thread.Sleep(4 * 1000);
         public override async Task Data(DataRequest request, IServerStreamWriter<DataReply> replyStream, ServerCallContext context)
         {
-            SetTimeStamp();
+            InitializeTimeStamp();
+
             while (true)
             {
-                System.Threading.Thread.Sleep(secToSendData);
-
                 if (priceListUpdate())
                 {
-                    List<DataReply> responseList = new List<DataReply>();
-
-                    lock (DataClass.productLock)
+                    foreach (KeyValuePair<int, Product> product in DataClass.products)
                     {
-                        foreach (KeyValuePair<int, Product> product in DataClass.products)
+                        string prodName = product.Value.name;
+                        int key = product.Key;
+                        for (int index = productTimeStamp[key], count = product.Value.priceList.Count; index < count; index++)
                         {
-                            string prodName = product.Value.name;
-                            int key = product.Key;
-
-                            for (int index = productTimeStamp[key]; index < product.Value.priceList.Count; index++)
-                            {
-                                responseList.Add(new DataReply { ProductName = prodName, ProductPrice = product.Value.priceList[index] });
-                            }
-
-                            productTimeStamp[key] = product.Value.priceList.Count;
+                            await replyStream.WriteAsync(new DataReply { ProductName = prodName, ProductPrice = product.Value.priceList[index] });
                         }
-                    }
 
-                    foreach (DataReply response in responseList)
-                    {
-                        await replyStream.WriteAsync(response);
+                        productTimeStamp[key] = product.Value.priceList.Count;
                     }
-                    responseList.Clear();
                 }
             }
         }
     }
 
-    //ISSUE: server not closing...
-    // system.threading.thread.currentthread.abort();
     class Program
     {
         const int Port = 50051;
 
-        // exception handling
         static void Main(string[] args)
         {
             // Starting DataClass
